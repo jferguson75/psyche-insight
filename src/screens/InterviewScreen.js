@@ -226,8 +226,11 @@ export default function InterviewScreen({ navigation }) {
           text: 'Logout', 
           style: 'destructive',
           onPress: async () => {
-            await logOut();
-            navigation.replace('Landing');
+            const result = await logOut();
+            if (!result.success) {
+              Alert.alert('Error', result.error || 'Failed to logout');
+            }
+            // No need to navigate - auth state observer in App.js will handle it
           }
         }
       ]
