@@ -39,7 +39,7 @@ const CORE_QUESTIONS = [
   "Define 'enough' for your life. What evidence are you waiting for to tell you that you've reached it?"
 ];
 
-const API_KEY = ""; // Add your Gemini API key
+const API_KEY = "AIzaSyBcgs-gUacFzu0O1bh-1CBjz1OITI_CnDU"; // Add your Gemini API key
 
 export default function InterviewScreen({ navigation }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

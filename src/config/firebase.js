@@ -1,18 +1,20 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getAnalytics } from "firebase/analytics";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
 // Your web app's Firebase configuration
-// TODO: Replace with your actual Firebase config
+
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCtIxvChFjA3dAudY6uK2xJCn-vW15v_HA",
+  authDomain: "psych-insight.firebaseapp.com",
+  projectId: "psych-insight",
+  storageBucket: "psych-insight.firebasestorage.app",
+  messagingSenderId: "254295173498",
+  appId: "1:254295173498:web:36819bf83b2ed126f90ec3",
+  measurementId: "G-74YXT08KCC"
 };
 
 // Initialize Firebase

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "254295173498",
+    "project_id": "psych-insight",
+    "storage_bucket": "psych-insight.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254295173498:android:731e23ddc58af37cf90ec3",
+        "android_client_info": {
+          "package_name": "com.psychinsight.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254295173498-5ehk8vbubpivhm8gvfgfet395eb1impd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHHd9VFdPYXjPgJYApNovOq17JnqX5AXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "254295173498-5ehk8vbubpivhm8gvfgfet395eb1impd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
