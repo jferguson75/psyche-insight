@@ -17,11 +17,37 @@ import { Platform } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
+const RECAPTCHA_SITE_KEY = '6LcoZx0sAAAAALM_RESudX2VhSbvQBGTkhd0K7z9';
+
+/**
+ * Get reCAPTCHA token for authentication actions
+ */
+const getRecaptchaToken = async (action) => {
+  if (Platform.OS !== 'web' || typeof window === 'undefined' || !window.grecaptcha) {
+    return null; // Skip reCAPTCHA on mobile
+  }
+
+  try {
+    await new Promise((resolve) => {
+      window.grecaptcha.enterprise.ready(resolve);
+    });
+    
+    const token = await window.grecaptcha.enterprise.execute(RECAPTCHA_SITE_KEY, { action });
+    return token;
+  } catch (error) {
+    console.warn('reCAPTCHA error:', error);
+    return null;
+  }
+};
+
 /**
  * Sign up a new user
  */
 export const signUp = async (email, password, displayName) => {
   try {
+    // Get reCAPTCHA token for SIGNUP action
+    const recaptchaToken = await getRecaptchaToken('SIGNUP');
+    
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
@@ -44,6 +70,9 @@ export const signUp = async (email, password, displayName) => {
  */
 export const signIn = async (email, password) => {
   try {
+    // Get reCAPTCHA token for LOGIN action
+    const recaptchaToken = await getRecaptchaToken('LOGIN');
+    
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return { success: true, user: userCredential.user };
   } catch (error) {
@@ -87,6 +116,9 @@ export const getUserProfile = async (uid) => {
 export const signInWithGoogle = async () => {
   try {
     if (Platform.OS === 'web') {
+      // Get reCAPTCHA token for GOOGLE_LOGIN action
+      const recaptchaToken = await getRecaptchaToken('GOOGLE_LOGIN');
+      
       // Web implementation using redirect (more reliable for Expo web)
       const provider = new GoogleAuthProvider();
       provider.addScope('profile');

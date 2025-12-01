@@ -84,6 +84,18 @@ export default function App() {
     return unsubscribe;
   }, []);
 
+  // Force navigation to interview when user becomes authenticated
+  useEffect(() => {
+    if (user && navigationRef.current && typeof window !== 'undefined') {
+      // Check if we're on an auth page
+      const currentPath = window.location.pathname;
+      if (currentPath === '/login' || currentPath === '/signup' || currentPath === '/') {
+        // Use window.history to change URL without page reload
+        window.history.pushState({}, '', '/interview');
+      }
+    }
+  }, [user]);
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
