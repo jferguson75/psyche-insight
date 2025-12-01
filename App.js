@@ -41,6 +41,7 @@ function AppStackScreens({ user }) {
 const linking = {
   prefixes: [
     'http://localhost:8081',
+    'https://psyche-insight.web.app',
     'https://psych-insight.web.app',
     'https://psych-insight.firebaseapp.com'
   ],
