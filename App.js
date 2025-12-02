@@ -67,6 +67,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigationRef = useRef();
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     // Handle Google redirect result on app load
@@ -76,6 +77,7 @@ export default function App() {
 
     // Listen to authentication state changes
     const unsubscribe = observeAuthState((currentUser) => {
+      console.log('Auth state changed:', currentUser ? 'User logged in' : 'No user');
       setUser(currentUser);
       setLoading(false);
     });
@@ -85,15 +87,17 @@ export default function App() {
 
   // Force navigation to interview when user becomes authenticated
   useEffect(() => {
-    if (user && typeof window !== 'undefined') {
-      // Check if we're on an auth page
+    if (!loading && user && isReady && typeof window !== 'undefined') {
       const currentPath = window.location.pathname;
+      console.log('User authenticated, current path:', currentPath);
       if (currentPath === '/login' || currentPath === '/signup' || currentPath === '/') {
-        // Force navigation by replacing the URL
-        window.location.replace('/interview');
+        console.log('Redirecting to /interview');
+        setTimeout(() => {
+          window.location.href = '/interview';
+        }, 100);
       }
     }
-  }, [user]);
+  }, [user, loading, isReady]);
 
   if (loading) {
     return (
@@ -104,7 +108,14 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer linking={linking} ref={navigationRef}>
+    <NavigationContainer 
+      linking={linking} 
+      ref={navigationRef}
+      onReady={() => {
+        console.log('Navigation ready');
+        setIsReady(true);
+      }}
+    >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <Stack.Screen name="AppStack">
