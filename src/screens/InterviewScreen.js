@@ -101,19 +101,44 @@ export default function InterviewScreen({ navigation, user }) {
   };
 
   const speakText = (text) => {
-    if (!audioEnabled || Platform.OS === 'web') return;
+    if (!audioEnabled) return;
     
-    Speech.speak(text, {
-      rate: 0.9,
-      pitch: 1.0,
-      onStart: () => setIsSpeaking(true),
-      onDone: () => setIsSpeaking(false),
-      onStopped: () => setIsSpeaking(false),
-    });
+    if (Platform.OS === 'web') {
+      // Web Speech API
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        // Stop any ongoing speech
+        window.speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+        
+        window.speechSynthesis.speak(utterance);
+      }
+    } else {
+      // Mobile implementation
+      Speech.speak(text, {
+        rate: 0.9,
+        pitch: 1.0,
+        onStart: () => setIsSpeaking(true),
+        onDone: () => setIsSpeaking(false),
+        onStopped: () => setIsSpeaking(false),
+      });
+    }
   };
 
   const stopSpeaking = () => {
-    if (Platform.OS !== 'web') {
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+      }
+    } else {
       Speech.stop();
       setIsSpeaking(false);
     }
