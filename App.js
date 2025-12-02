@@ -48,7 +48,6 @@ const linking = {
   config: {
     screens: {
       AuthStack: {
-        path: '',
         screens: {
           Landing: '',
           Login: 'login',
@@ -56,7 +55,6 @@ const linking = {
         },
       },
       AppStack: {
-        path: '',
         screens: {
           Interview: 'interview',
         },
