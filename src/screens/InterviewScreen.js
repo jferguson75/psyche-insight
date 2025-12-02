@@ -64,9 +64,7 @@ export default function InterviewScreen({ navigation, user }) {
   // Load saved session on mount
   useEffect(() => {
     loadSession();
-    if (audioEnabled) {
-      speakText(currentQuestionText);
-    }
+    // Don't auto-play - let user click Play button
   }, []);
 
   // Save session whenever state changes
@@ -206,10 +204,7 @@ export default function InterviewScreen({ navigation, user }) {
       setCurrentQuestionIndex(nextIndex);
       setCurrentQuestionText(nextQuestionToAsk);
       setUserAnswer("");
-      
-      if (audioEnabled) {
-        setTimeout(() => speakText(nextQuestionToAsk), 500);
-      }
+      // Don't auto-play - let user click Play button
 
     } catch (error) {
       console.error("AI Error:", error);
@@ -217,7 +212,7 @@ export default function InterviewScreen({ navigation, user }) {
       setCurrentQuestionIndex(prev => prev + 1);
       setCurrentQuestionText(nextQ);
       setUserAnswer("");
-      if (audioEnabled) speakText(nextQ);
+      // Don't auto-play - let user click Play button
     } finally {
       setIsThinking(false);
     }
@@ -292,6 +287,14 @@ export default function InterviewScreen({ navigation, user }) {
           {/* Question */}
           <View style={styles.questionContainer}>
             <Text style={styles.questionText}>"{currentQuestionText}"</Text>
+            <TouchableOpacity 
+              onPress={() => speakText(currentQuestionText)}
+              style={styles.playButton}
+              disabled={isSpeaking}
+            >
+              <Text style={styles.playButtonIcon}>{isSpeaking ? '⏸' : '▶️'}</Text>
+              <Text style={styles.playButtonText}>{isSpeaking ? 'Playing...' : 'Play Question'}</Text>
+            </TouchableOpacity>
             {currentQuestionIndex >= CORE_QUESTIONS.length && (
               <Text style={styles.extendedBadge}>EXTENDED SESSION</Text>
             )}
@@ -478,6 +481,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 32,
     fontWeight: '300',
+    marginBottom: 16,
+  },
+  playButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(139, 92, 246, 0.2)',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'rgba(139, 92, 246, 0.4)',
+    alignSelf: 'center',
+    marginBottom: 8,
+  },
+  playButtonIcon: {
+    fontSize: 16,
+    marginRight: 8,
+  },
+  playButtonText: {
+    color: '#a78bfa',
+    fontSize: 14,
+    fontWeight: '600',
   },
   extendedBadge: {
     fontSize: 10,
