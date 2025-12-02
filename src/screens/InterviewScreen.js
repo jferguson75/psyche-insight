@@ -290,7 +290,7 @@ export default function InterviewScreen({ navigation, user }) {
   }, []);
 
   const callGeminiAPI = async (prompt) => {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
     
     const payload = {
       contents: [{ parts: [{ text: prompt }] }]
