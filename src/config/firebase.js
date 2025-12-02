@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCtIxvChFjA3dAudY6uK2xJCn-vW15v_HA",
-  authDomain: "psych-insight.firebaseapp.com",
+  authDomain: "psych-insight.web.app",
   projectId: "psych-insight",
   storageBucket: "psych-insight.firebasestorage.app",
   messagingSenderId: "254295173498",
