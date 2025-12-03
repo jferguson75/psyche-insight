@@ -290,7 +290,7 @@ export default function InterviewScreen({ navigation, user }) {
   }, []);
 
   const callGeminiAPI = async (prompt) => {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
     
     const payload = {
       contents: [{ parts: [{ text: prompt }] }]
@@ -305,7 +305,11 @@ export default function InterviewScreen({ navigation, user }) {
           body: JSON.stringify(payload)
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Gemini API Error Response:', errorText);
+          throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+        }
         
         const data = await response.json();
         return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
